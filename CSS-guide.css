@@ -1,16 +1,184 @@
-/*ALL COMMENTS SHOULD BE FROMATTED LIKE THIS, CLOSED WITH A TRAILING */
+/*ALL COMMENTS FOR OUTPUT SHOULD BE FORMATTED LIKE THIS, CLOSED WITH A TRAILING IF YOU WANT THEM IN COMPILED CSS */
+
+// If you want your comments removed from compiled output, do this
+
+/**
+  *! This "loud comment" will stay where you added
+  *! it once Sass compiles into CSS.
+  */
 
 /*Separate all comments with one line*/
 
-/*Separate comment from content with one line */
+/*Where appropriate, close off the block of CSS the comment is referring to with */
 
-/*Close off the block of CSS the comment is referring to with */
+.some-class-the-comment-is-about {
+	
+}
 
 /*END */
+
+/* Adoid using ID's */
+
+/*Be consistant with indentation*/
+
+.class {
+	color: #000;
+}
+
+/*Be consistant about where spaces before/after colons/braces go*/
+
+/*One selector per line, One rule per line*/
 
 /*Always declare a charset */
 
 @charset "utf-8";
 /* CSS Document */
+
+/*SASS style guidlines */
+
+/* @extends go first */
+
+.weather {
+  @extends %module; 
+  ...
+}
+
+/* @includes go next */
+
+.weather {
+  @extends %module; 
+  @include transition(all 0.3s ease-out);
+  ...
+}
+
+/*then "regular" styles */
+
+.weather {
+  @extends %module; 
+  background: LightCyan;
+  @include transition(all 0.3s ease-out);
+  ..
+}
+
+/*Nested selectors go last*/
+
+.weather {
+  @extends %module; 
+  background: LightCyan;
+  @include transition(all 0.3s ease);
+  > h3 {
+    border-bottom: 1px solid white;
+    @include transform(rotate(90deg));
+  }
+}
+
+/*Max nesting should generally be three levels*/
+
+.weather {
+  .cities {
+    li {
+      // no more!
+    }
+  }
+}
+
+/*Global and Section-Specific Sass Files Are just Table of Contents
+In other words, no styles directly in them. Force yourself to keep all styles organized into component parts.*/
+
+/*List Vendor/Global Dependancies First, Then Author Dependancies, Then Patterns, Then Parts*/
+
+/*So the "table of contents" things comes together like:*/
+
+/* Vendor Dependencies */
+@import "compass";
+
+/* Authored Dependencies */
+@import "global/colors";
+@import "global/mixins";
+
+/* Patterns */
+@import "global/tabs";
+@import "global/modals";
+
+/* Sections */
+@import "global/header";
+@import "global/footer";
+
+/*Break Into As Many Small Files As Makes Sense
+There is no penalty to splitting into many small files. Do it as much as feels good to the project. I know I find it easier to jump to small specific files and navigate through them than fewer/larger ones.*/
+
+...
+
+@import "global/header/header/";
+@import "global/header/logo/";
+@import "global/header/dropdowns/";
+@import "global/header/nav/";
+@import "global/header/really-specific-thingy/";
+
+/*Partials are named _partial.scss
+This is a common naming convention that indicates this file isn't meant to be compiled by itself. It likely has dependancies that would make it impossible to compile by itself. Personally I like dashes in the "actual" filename though, like _dropdown-menu.scss.*/
+
+/*Variablize all specific numbers or numbers with meaning*/
+/*Those numbers are probably in a separate file @import-ed as a dependency. That way you can keep track of your whole z-index stack in one place.*/
+$zHeader: 2000;
+zOverlay: 5000;
+zMessage: 5050;
+
+.header {
+  z-index: $zHeader;
+}
+.overlay {
+  z-index: $zOverlay;
+}
+.message {
+  z-index: $zMessage;
+}
+
+/*Variablize All Colors
+Except perhaps white and black. Chances are a color isn't one-off, and even if you think it is, once it's in a variable you might see uses for it elsewhere. Variations on that color can often be handled by the Sass color functions like lighten() and darken() - which make updating colors easier (change in one place, whole color scheme updates).*/
+
+$backgroundMain : #939393;
+
+.content {
+	background-color: $backgroundMain;	
+}
+
+/*Nest and Name Your Media Queries
+The ability to nest media queries in Sass means 1) you don't have to re-write the selector somewhere else which can be error prone 2) the rules that you are overriding are very clear and obvious, which is usually not the case when they are at the bottom of your CSS or in a different file.*/
+
+@mixin breakpoint($point) {
+  @if $point == papa-bear {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == mama-bear {
+    @media (max-width: 1250px) { @content; }
+  }
+  @else if $point == baby-bear {
+    @media (max-width: 650px)  { @content; }
+  }
+}
+
+.sidebar {
+  float: right;
+  width: 33.33%;
+  @include breakpoint(mama-bear) {
+    width: 25%;
+  }
+}
+
+/*Shame Last
+In your global stylesheet, @import a _shame.scss file last. If you need to make a quick fix, you can do it here. Later when you have proper time, you can move the fix into the proper structure/organization. */
+
+@import "compass"
+
+...
+
+@import "shame"
+
+/*END SASS style guidelines*/
+
+
+
+
 
 
